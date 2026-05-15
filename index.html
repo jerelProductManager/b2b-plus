@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>B2B Plus — Jerel Smith</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0F1F4B;
+      --navy-mid:   #1A3066;
+      --navy-light: #2A4080;
+      --gold:       #C8993A;
+      --gold-light: #E8B84B;
+      --gold-dim:   rgba(200,153,58,0.12);
+      --gold-border:rgba(200,153,58,0.3);
+      --white:      #FFFFFF;
+      --off-white:  #F7F8FC;
+      --gray-100:   #EEF0F6;
+      --gray-300:   #C5CAD9;
+      --gray-500:   #7B82A0;
+      --gray-700:   #3D4468;
+      --text-navy:  #0F1F4B;
+      --font: 'Montserrat', sans-serif;
+      --r: 16px;
+      --shadow-sm: 0 2px 8px rgba(15,31,75,0.06);
+      --shadow-md: 0 4px 24px rgba(15,31,75,0.10);
+      --shadow-lg: 0 8px 40px rgba(15,31,75,0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--text-navy);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--navy) 0%, var(--gold) 60%, var(--gold-light) 100%);
+    }
+
+    /* ── Breadcrumb nav ─────────────────────────────────────── */
+    nav {
+      padding: 16px 48px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bc-link {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .bc-link:hover { color: var(--navy); }
+    .bc-sep {
+      color: var(--gray-300);
+      font-size: 13px;
+      margin: 0 2px;
+    }
+    .bc-current {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+      background: var(--off-white);
+      padding: 56px 48px 52px;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 40%, rgba(15,31,75,0.03) 100%);
+      pointer-events: none;
+    }
+    .hero-text {
+      flex: 1;
+      opacity: 0;
+      animation: fadeUp .7s ease forwards .25s;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .eyebrow-rule { width: 28px; height: 2px; background: var(--gold); border-radius: 2px; }
+    .eyebrow-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    h1 {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--navy);
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+    }
+    h1 .accent { color: var(--gold); }
+    .hero-sub {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+      letter-spacing: .01em;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      padding: 6px 16px;
+      border: 1.5px solid;
+    }
+    .tag-navy { color: var(--navy); border-color: var(--navy-light); background: rgba(15,31,75,0.04); }
+    .tag-gold { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 24px 48px;
+      border-top: 1px solid var(--gray-100);
+      font-size: 12px;
+      color: var(--gray-500);
+      letter-spacing: .06em;
+    }
+    footer strong { color: var(--navy); font-weight: 600; }
+
+    /* ── Animations ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: .4; }
+      50%       { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* ── Options grid ───────────────────────────────────────── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 48px 80px;
+    }
+    .page-header {
+      text-align: center;
+      max-width: 620px;
+      margin-bottom: 52px;
+      animation: fadeUp .5s ease both;
+    }
+    .page-eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .page-eyebrow-rule { width: 28px; height: 2px; background: var(--gold); }
+    .page-eyebrow-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 900;
+      letter-spacing: -.01em;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    h2 .accent { color: var(--gold); }
+    .page-sub {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1120px;
+    }
+    .option-card {
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--r);
+      padding: 36px 32px 32px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-md);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp .5s ease both;
+    }
+    .option-card:nth-child(2) { animation-delay: .08s; }
+    .option-card:nth-child(3) { animation-delay: .16s; }
+    .option-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--r) var(--r) 0 0;
+      background: linear-gradient(90deg, var(--navy), var(--gold));
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .option-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--gold-border); }
+    .option-card:hover::before { opacity: 1; }
+    .card-num {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      color: var(--gray-300);
+    }
+    .card-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      position: relative;
+    }
+    .pulse::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      opacity: .4;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .card-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--gray-500);
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .ct-navy { background: rgba(15,31,75,.07); color: var(--navy-mid); }
+    .ct-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+    .card-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-top: auto;
+    }
+    .cta-arrow { font-size: 14px; transition: transform .2s; }
+    .option-card:hover .cta-arrow { transform: translateX(4px); }
+
+    @media (max-width: 980px) {
+      .options { grid-template-columns: repeat(2, 1fr); max-width: 780px; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 14px 24px; }
+      .hero { flex-direction: column; align-items: flex-start; gap: 28px; padding: 40px 24px 36px; }
+      main { padding: 40px 24px 64px; }
+      .options { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar"></div>
+
+  <nav>
+    <div class="breadcrumb">
+      <a class="bc-link" href="https://jerelproductmanager.github.io/">Jerel Smith</a>
+      <span class="bc-sep">›</span>
+      <a class="bc-link" href="https://jerelproductmanager.github.io/">PM Portfolio</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">B2B Plus</span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-rule"></div>
+        <span class="eyebrow-text">Product Portfolio</span>
+      </div>
+      <h1>B2B Plus<br><span class="accent">K-12 School Safety</span><br>Low-Fi Concepts</h1>
+      <p class="hero-sub">Three low-fidelity mockups exploring how to frame a K-12 school-safety solution for district buyers.</p>
+      <div class="tags">
+        <span class="tag tag-navy">B2B · Public Sector</span>
+        <span class="tag tag-navy">K-12 Districts</span>
+        <span class="tag tag-gold">Low-Fi Concepts</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="page-header">
+      <div class="page-eyebrow">
+        <div class="page-eyebrow-rule"></div>
+        <span class="page-eyebrow-text">B2B Plus · K-12 Safety</span>
+        <div class="page-eyebrow-rule"></div>
+      </div>
+      <h2>School Safety<br><span class="accent">Three Low-Fi Mockups</span></h2>
+      <p class="page-sub">Three different framings of the same pitch — pick a layout to see how the story changes when the form factor changes.</p>
+    </div>
+
+    <div class="options">
+
+      <a class="option-card" href="k12-safety-v1-classic.html">
+        <span class="card-num">V1</span>
+        <div class="card-type"><span class="pulse"></span> Classic Scroll</div>
+        <h3 class="card-title">Safer schools, built from the door to the network.</h3>
+        <p class="card-desc">A familiar long-scroll narrative — hero pitch, pillars stacked top-to-bottom, then proof and CTA. Easiest to skim for district decision-makers.</p>
+        <div class="card-tags">
+          <span class="card-tag ct-navy">Long-scroll</span>
+          <span class="card-tag ct-navy">Narrative</span>
+          <span class="card-tag ct-gold">Low-Fi</span>
+        </div>
+        <div class="card-cta">View Mockup <span class="cta-arrow">→</span></div>
+      </a>
+
+      <a class="option-card" href="k12-safety-v2-explorer.html">
+        <span class="card-num">V2</span>
+        <div class="card-type"><span class="pulse"></span> Interactive Explorer</div>
+        <h3 class="card-title">Build a safer school — one system at a time.</h3>
+        <p class="card-desc">A side-by-side explorer: pick a safety pillar, see the story update in place. Treats the page like a configurator instead of a deck.</p>
+        <div class="card-tags">
+          <span class="card-tag ct-navy">Interactive</span>
+          <span class="card-tag ct-navy">Tabbed</span>
+          <span class="card-tag ct-gold">Low-Fi</span>
+        </div>
+        <div class="card-cta">View Mockup <span class="cta-arrow">→</span></div>
+      </a>
+
+      <a class="option-card" href="k12-safety-v3-campus.html">
+        <span class="card-num">V3</span>
+        <div class="card-type"><span class="pulse"></span> Campus Diagram</div>
+        <h3 class="card-title">Every entry point. Every classroom. Every student.</h3>
+        <p class="card-desc">A visual map of a typical K-12 site with pinned safety pillars. Anchors the pitch in the physical campus instead of an abstract feature list.</p>
+        <div class="card-tags">
+          <span class="card-tag ct-navy">Visual Map</span>
+          <span class="card-tag ct-navy">Spatial</span>
+          <span class="card-tag ct-gold">Low-Fi</span>
+        </div>
+        <div class="card-cta">View Mockup <span class="cta-arrow">→</span></div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <strong>Jerel Smith</strong> &nbsp;·&nbsp; Senior Product Manager &nbsp;·&nbsp; Enterprise B2B · Used · E-Commerce
+  </footer>
+
+</body>
+</html>
